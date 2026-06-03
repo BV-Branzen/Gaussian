@@ -1,87 +1,74 @@
-# Norm of a matrix
+# Gaussian Elimination
 
 ~~~
-Name: Branzen.B.V
+Name: Branzen B V
 Register No: 212225100005
 ~~~
 
-## Aim
+## AIM:
 
-To write a program to find the 1-norm, 2-norm and infinity norm of the matrix and display the result in two decimal places.
+To write a program to find the solution of a matrix using Gaussian Elimination.
 
-## Equipment’s required:
+## Equipments Required:
 
-1.	Hardware – PCs
+1. Hardware – PCs
 
-2.	Anaconda – Python 3.7 Installation / Moodle-Code Runner
+2. Anaconda – Python 3.7 Installation / Moodle-Code Runner
 
-## Algorithm:
+## Algorithm
 
-	1. Get the input matrix using np.array()   
-   
-	2. Find the 2-norm of the matrix using np.linalg.norm()
-	
-	3. Print the norm of the matrix in two decimal places.
+1.Input matrix dimensions and initialize augmented matrix and solution vector.
+
+2.Populate the augmented matrix with user inputs.
+
+3.Perform Gaussian elimination to reduce the matrix to upper triangular form, ensuring no division by zero.
+
+4.Back substitute to compute solution values for the variables.
+
+5.Print the solution vector formatted to two decimal places.
 
 ## Program:
 
-# 1-Norm of a Matrix
+Use Gaussian elimination without partial pivoting to solve a matrix.
 
-Write a python program to find the 1-Norm of a matrix and display the results in two decimal places.
-
-~~~
+```
 import os
 os.environ["OPENBLAS_NUM_THREADS"]="1"
 import numpy as np
-mat=np.array(eval(input()))
-ans=np.linalg.norm(mat,1)
-norm_of_matrix="{:.2f}".format(ans)
-print(norm_of_matrix)
-~~~
+import sys
+n=int(input())
+a=np.zeros((n,n+1))
+x=np.zeros(n)
+for i in range(n):
+    for j in range(n+1):
+        a[i][j]=float(input())
+for i in range(n):
+    if a[i][i] == 0.0:
+        sys.exit('Divide by zero detected!')
+    for j in range(i+1,n):   
+        ratio=a[j][i]/a[i][i]
+        
+        for k in range(n+1):
+            a[j][k]=a[j][k]-ratio*a[i][k]
+x[n-1]=a[n-1][n]/a[n-1][n-1]
+for i in range(n-2,-1,-1):
+    x[i]=a[i][n]
+    
+    for j in range(i+1,n):
+        x[i]=x[i]-a[i][j]*x[j]
+        
+    x[i]=x[i]/a[i][i]
 
-# 2-Norm of a Matrix
+for i in range(n):
+    print('X%d = %.2f' %(i,x[i]),end=' ')
 
-Write a program to find L2-norm of a matrix and display the result in two decimal places.
-
-~~~
-import os
-os.environ["OPENBLAS_NUM_THREADS"]="1"
-import numpy as np
-mat=np.array(eval(input()))
-ans=np.linalg.norm(mat,2)
-norm_of_matrix="{:.2f}".format(ans)
-print(norm_of_matrix)
-~~~
-
-# Infinity Norm of a Matrix
-
-Write a program to find the Infinity of a matrix and display the result in two decimal places.
-
-~~~
-import os
-os.environ["OPENBLAS_NUM_THREADS"]="1"
-import numpy as np
-mat=np.array(eval(input()))
-ans=np.linalg.norm(mat,np.inf)
-norm_of_matrix="{:.2f}".format(ans)
-print(norm_of_matrix)
-~~~
+```
 
 ## Output:
-### 1-Norm of a Matrix
 
-<img width="594" height="207" alt="1" src="https://github.com/user-attachments/assets/6b6ef3f7-bf99-4fef-adf6-dfef59d4f54d" />
+<img width="808" height="447" alt="6" src="https://github.com/user-attachments/assets/7e864bcc-b8b9-4abb-bb6a-b7a4f4f42aa8" />
 
+## Result:
 
-### 2-Norm of a Matrix
+Thus the program to find the solution of a matrix using Gaussian Elimination is written and verified using python programming.
 
-<img width="529" height="246" alt="2" src="https://github.com/user-attachments/assets/025f001d-1846-478b-b0c1-69349cff5c85" />
-
-
-### Infinity Norm of a Matrix
-
-<img width="590" height="203" alt="3" src="https://github.com/user-attachments/assets/76ee2dc4-79de-43cc-ab6f-54893767aad1" />
-
-## Result
-
-Thus the program for 1-norm, 2-norm and Infinity norm of a matrix are written and verified.
